@@ -1,7 +1,6 @@
 import pandas as pd
 import streamlit as st
-#from func import fetch_data, auto_refresh, piebytab, barbytab,\
-                 piebydept, barbydept, detailbysku, filterfield
+# from func import fetch_data, auto_refresh, piebytab, barbytab, piebydept, barbydept, detailbysku, filterfield
 
 import pandas as pd
 import streamlit as st
