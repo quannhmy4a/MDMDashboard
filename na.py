@@ -46,7 +46,7 @@ def piebytab(piebytabdf, title):
         margin=dict(l=60, r=60, t=60, b=60),
         annotations=[dict(text=f"{len(piebytabdf.index)}", 
                           x=0.5, y=0.5, 
-                          font=dict(size=70, color="grey"), showarrow=False)])
+                          font=dict(size=70, color="black"), showarrow=False)])
         
     st.plotly_chart(fig)
     
@@ -77,8 +77,10 @@ def barbytab(barbytabdf):
         yaxis=dict(
             automargin=True, 
             showgrid=False,
-            categoryorder="total ascending"),
-        uniformtext_minsize=8, uniformtext_mode="hide")                    
+            categoryorder="total ascending", tickfont=dict(color="black")),
+        uniformtext_minsize=8, uniformtext_mode="hide")
+
+        fig.update_traces(textfont_size=20, textfont_color="black")                 
         
         st.plotly_chart(fig)
 
@@ -106,7 +108,7 @@ def piebydept(dept, piebydeptdf):
         margin=dict(l=60, r=60, t=60, b=60),
         annotations=[dict(text=f"{piebydeptdf[dept]['Total by Dept']}", 
                           x=0.5, y=0.5, 
-                          font=dict(size=70, color="grey"), showarrow=False)])
+                          font=dict(size=70, color="black"), showarrow=False)])
     st.plotly_chart(fig)
 
 # Function to draw bar chart of each department (Number of Missing of Each field):
@@ -120,7 +122,8 @@ def barbydept(dept, barbydeptdf):
     text_auto=True, height=650, width=500, labels={"index": "", "value": ""})    
     
     fig.update_traces(
-    textfont_size=12,
+    textfont_size=20,
+    textfont_color="black",
     textposition="outside",  # Show text labels above bars
     marker=dict(
         color='#c40202',
@@ -128,14 +131,15 @@ def barbydept(dept, barbydeptdf):
         opacity=0.9,  # Slight transparency
         cornerradius=60),)
     fig.update_layout(title_text='Missing Field Break- down',
-        xaxis=dict(range=[0, max(missbyfield[dept]) * 1.5]))  # Adjust margins as needed
+        xaxis=dict(range=[0, max(missbyfield[dept]) * 1.5]),
+        yaxis=dict(tickfont=dict(color="black")))  # Adjust margins as needed
 
     st.plotly_chart(fig, use_container_width=True)
 
 # Function to display dataframe of each department (group SKU by the same group of Missing Field)
 def detailbysku(dept, detailbyskudf, key):    
     detailbyskudf.set_index(key, inplace=True)
-    missing_patterns = detailbyskudf[detailbyskudf['dept'] == 'SSO'].isna().apply(lambda row: tuple(row[row].index), axis=1)
+    missing_patterns = detailbyskudf[detailbyskudf['dept'] == dept].isna().apply(lambda row: tuple(row[row].index), axis=1)
     def group_by_pic(df, missing_patterns):
         grouped_data = {}
         for (sku, missing_cols), pic in zip(missing_patterns.items(), detailbyskudf.loc[missing_patterns.index, 'PIC']):
