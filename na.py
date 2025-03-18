@@ -317,4 +317,4 @@ while True:
                 detailbysku('SFO', mandfven[mandfven.isna().any(axis=1)], 'SKU_SupCode')
  
     # Auto-refresh every setting seconds =======================================
-    auto_refresh(3)
+    auto_refresh(10)
